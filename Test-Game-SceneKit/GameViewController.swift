@@ -9,12 +9,19 @@ import SceneKit
 
 class GameViewController: UIViewController {
     
+    // MARK: - Outlets
+    let label = UILabel()
+    
     // MARK: - Properties
     var duration: TimeInterval = 5
     var score = 0
     var ship: SCNNode!
     
     // MARK: - Methods
+    func addLabel () {
+        
+    }
+    
     func addShip() {
         // Move ship farther from view
         let x = Int.random(in: -25...25)
@@ -31,9 +38,6 @@ class GameViewController: UIViewController {
             
             print(#line, #function, "Game Over")
         }
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
         // add ship to the scene
         scnView.scene?.rootNode.addChildNode(ship)
     }
@@ -47,9 +51,6 @@ class GameViewController: UIViewController {
         return ship
     }
     func removeShip () {
-        // Retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
         // Remove the ship
         scnView.scene?.rootNode.childNode(withName: "ship", recursively: true)?.removeFromParentNode()
     }
@@ -77,9 +78,6 @@ class GameViewController: UIViewController {
         ambientLightNode.light!.type = .ambient
         ambientLightNode.light!.color = UIColor.darkGray
         scene.rootNode.addChildNode(ambientLightNode)
-        
-        // Retrieve the SCNView
-        let scnView = self.view as! SCNView
         
         // Set the scene to the view
         scnView.scene = scene
@@ -109,9 +107,6 @@ class GameViewController: UIViewController {
     
     @objc
     func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-        // Retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
         // Check what nodes are tapped
         let p = gestureRecognize.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [:])
@@ -144,13 +139,17 @@ class GameViewController: UIViewController {
             SCNTransaction.commit()
         }
     }
+    // MARK: - Computer Properties
+    var scnView: SCNView {
+        self.view as! SCNView
+    }
     
     override var shouldAutorotate: Bool {
-        return true
+        true
     }
     
     override var prefersStatusBarHidden: Bool {
-        return true
+        true
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
